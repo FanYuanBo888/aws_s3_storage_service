@@ -23,118 +23,118 @@ testFunctions() async {
 
   // await testResumeDownload(); // Test resume download
 
-  await testCloudFrontDownload();
+  // await testCloudFrontDownload();
 }
 
-Future testResumeDownload() async {
-  //This tests uploading of a file
-  String filePath = p.join(Directory.current.path, 'test_download.mp4');
+// Future testResumeDownload() async {
+//   //This tests uploading of a file
+//   String filePath = p.join(Directory.current.path, 'test_download.mp4');
 
-  String fileUrl = 'file/ftest.mp4'; // The Url of the file in the bucket
+//   String fileUrl = 'file/ftest.mp4'; // The Url of the file in the bucket
 
-  //Create a download config...
-  //The download config contains all the configurations needed by the downloader to download the file
-  DownloadFileConfig config = DownloadFileConfig(
-    credentailsConfig: credentialsConfig,
-    url: fileUrl,
-    resumeDownload:
-        true, // Set resume download to true if download is to be resumed
-    downloadPath: filePath, // The file path of the file to be resumed
-  );
+//   //Create a download config...
+//   //The download config contains all the configurations needed by the downloader to download the file
+//   DownloadFileConfig config = DownloadFileConfig(
+//     credentailsConfig: credentialsConfig,
+//     url: fileUrl,
+//     resumeDownload:
+//         true, // Set resume download to true if download is to be resumed
+//     downloadPath: filePath, // The file path of the file to be resumed
+//   );
 
-  DownloadFile downloadFile = DownloadFile(
-    config: config,
-    onRecieveProgress: ((totalDownloaded, totalSize) =>
-        print('Upload Status Callback ===> $totalDownloaded/$totalSize')),
-    errorCallback: (errorMessage, statusCode) =>
-        print('An error occurred $errorMessage'),
-  ); // Create  a download file instance
+//   DownloadFile downloadFile = DownloadFile(
+//     config: config,
+//     onRecieveProgress: ((totalDownloaded, totalSize) =>
+//         print('Upload Status Callback ===> $totalDownloaded/$totalSize')),
+//     errorCallback: (errorMessage, statusCode) =>
+//         print('An error occurred $errorMessage'),
+//   ); // Create  a download file instance
 
-  bool prepSuccessful =
-      await downloadFile.prepareDownload(); // Prepate the download
-  print('The download was prepared Successfully $prepSuccessful');
+//   bool prepSuccessful =
+//       await downloadFile.prepareDownload(); // Prepate the download
+//   print('The download was prepared Successfully $prepSuccessful');
 
-  downloadFile.downloadProgress.listen((event) {
-    //You can listen to the download progress
-    print('Upload Status Stream ===> ${event[0]}/${event[1]}');
-  });
+//   downloadFile.downloadProgress.listen((event) {
+//     //You can listen to the download progress
+//     print('Upload Status Stream ===> ${event[0]}/${event[1]}');
+//   });
 
-  if (prepSuccessful) {
-    await downloadFile.download().then((value) {
-      downloadFile.dispose();
-    });
-  }
-}
+//   if (prepSuccessful) {
+//     await downloadFile.download().then((value) {
+//       downloadFile.dispose();
+//     });
+//   }
+// }
 
-Future testDownload() async {
-  //Initiate a new upload
-  String filePath = p.join(Directory.current.path, 'test_download.mp4');
+// Future testDownload() async {
+//   //Initiate a new upload
+//   String filePath = p.join(Directory.current.path, 'test_download.mp4');
 
-  String fileUrl = 'file/ftest.mp4'; //The file URl in the bucket
+//   String fileUrl = 'file/ftest.mp4'; //The file URl in the bucket
 
-  DownloadFileConfig config = DownloadFileConfig(
-    credentailsConfig: credentialsConfig,
-    url: fileUrl,
-    downloadPath: filePath,
-  );
+//   DownloadFileConfig config = DownloadFileConfig(
+//     credentailsConfig: credentialsConfig,
+//     url: fileUrl,
+//     downloadPath: filePath,
+//   );
 
-  DownloadFile downloadFile = DownloadFile(
-    config: config,
-    onRecieveProgress: ((totalDownloaded, totalSize) =>
-        print('Upload Status Callback ===> $totalDownloaded/$totalSize')),
-    errorCallback: (errorMessage, statusCode) =>
-        print('An error occurred $errorMessage'),
-  );
+//   DownloadFile downloadFile = DownloadFile(
+//     config: config,
+//     onRecieveProgress: ((totalDownloaded, totalSize) =>
+//         print('Upload Status Callback ===> $totalDownloaded/$totalSize')),
+//     errorCallback: (errorMessage, statusCode) =>
+//         print('An error occurred $errorMessage'),
+//   );
 
-  bool prepSuccessful = await downloadFile.prepareDownload();
-  print('The download was prepared Successfully $prepSuccessful');
+//   bool prepSuccessful = await downloadFile.prepareDownload();
+//   print('The download was prepared Successfully $prepSuccessful');
 
-  downloadFile.downloadProgress.listen((event) {
-    print('Upload Status Stream ===> ${event[0]}/${event[1]}');
-  });
+//   downloadFile.downloadProgress.listen((event) {
+//     print('Upload Status Stream ===> ${event[0]}/${event[1]}');
+//   });
 
-  if (prepSuccessful) {
-    await downloadFile.download().then((value) {
-      downloadFile.dispose();
-    });
-  }
-}
+//   if (prepSuccessful) {
+//     await downloadFile.download().then((value) {
+//       downloadFile.dispose();
+//     });
+//   }
+// }
 
-Future testCloudFrontDownload() async {
-  //Initiate a new upload
-  String filePath =
-      p.join(Directory.current.path, 'filmora-mac_setup_full718.dmg');
+// Future testCloudFrontDownload() async {
+//   //Initiate a new upload
+//   String filePath =
+//       p.join(Directory.current.path, 'filmora-mac_setup_full718.dmg');
 
-  String fileUrl =
-      'files/peter_219048d6-9720-46b5-b4dd-00fddb158763/filmora-mac_setup_full718.dmg'; //The file URl in the bucket
+//   String fileUrl =
+//       'files/peter_219048d6-9720-46b5-b4dd-00fddb158763/filmora-mac_setup_full718.dmg'; //The file URl in the bucket
 
-  DownloadFileConfig config = DownloadFileConfig(
-    credentailsConfig: credentialsConfig,
-    url: fileUrl,
-    downloadPath: filePath,
-  );
+//   DownloadFileConfig config = DownloadFileConfig(
+//     credentailsConfig: credentialsConfig,
+//     url: fileUrl,
+//     downloadPath: filePath,
+//   );
 
-  DownloadFile downloadFile = DownloadFile(
-    config: config,
-    onRecieveProgress: ((totalDownloaded, totalSize) =>
-        print('Upload Status Callback ===> $totalDownloaded/$totalSize')),
-    errorCallback: (errorMessage, statusCode) =>
-        print('An error occurred $errorMessage'),
-  );
+//   DownloadFile downloadFile = DownloadFile(
+//     config: config,
+//     onRecieveProgress: ((totalDownloaded, totalSize) =>
+//         print('Upload Status Callback ===> $totalDownloaded/$totalSize')),
+//     errorCallback: (errorMessage, statusCode) =>
+//         print('An error occurred $errorMessage'),
+//   );
 
-  bool prepSuccessful = await downloadFile.prepareDownload();
-  print('The download was prepared Successfully $prepSuccessful');
+//   bool prepSuccessful = await downloadFile.prepareDownload();
+//   print('The download was prepared Successfully $prepSuccessful');
 
-  downloadFile.downloadProgress.listen((event) {
-    print('Upload Status Stream ===> ${event[0]}/${event[1]}');
-  });
+//   downloadFile.downloadProgress.listen((event) {
+//     print('Upload Status Stream ===> ${event[0]}/${event[1]}');
+//   });
 
-  if (prepSuccessful) {
-    await downloadFile.download().then((value) {
-      downloadFile.dispose();
-    });
-  }
-}
+//   if (prepSuccessful) {
+//     await downloadFile.download().then((value) {
+//       downloadFile.dispose();
+//     });
+//   }
+// }
 
 Future testResumeMultipartUpload() async {
   String imageName = 'test.mp4'; //tHE Name of the file to be uploaded
